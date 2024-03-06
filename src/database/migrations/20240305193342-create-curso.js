@@ -10,26 +10,39 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       titulo: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       descricao: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       data_inicio: {
+        allowNull: false,
         type: Sequelize.DATEONLY
       },
       docente_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
-
-        //{model: nome da tabela, key: chave estrangeira}
-        references: { model: "pessoas", key: "id" }
+        references: { model: 'pessoas', key: 'id' }
       },
       categoria_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        //{model: nome da tabela, key: chave estrangeira}
-        references: { model: "categorias", key: "id" }
+        references: { model: 'categorias', key: 'id' }
+      },
+      /*
+       createdAt: {
+         allowNull: false,
+         type: Sequelize.DATE
+       },
+       updatedAt: {
+         allowNull: false,
+         type: Sequelize.DATE
+       },*/
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE
       }
     });
   },

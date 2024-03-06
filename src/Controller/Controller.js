@@ -1,3 +1,5 @@
+
+
 class Controller {
   constructor(serviceEntity) {
     this.serviceEntity = serviceEntity;
@@ -12,7 +14,7 @@ class Controller {
         return res.status(200).json(dataList);
       }
     } catch (erro) {
-      return res.status(400).json({ message: "Erro na Requisição", error: erro });
+      return res.status(500).json({ message: "Erro na Requisição", error: erro });
     }
   }
   async getById(req, res) {
@@ -21,7 +23,7 @@ class Controller {
       const getPessoa = await this.serviceEntity.GetDataById(Number(id));
       return res.status(200).json(getPessoa);
     } catch (erro) {
-      return res.status(400).json({ message: "Erro na Requisição", error: erro });
+      return res.status(500).json({ message: "Erro na Requisição", error: erro });
     }
   }
 
@@ -29,9 +31,15 @@ class Controller {
     const dadosParaCriacao = req.body;
     try {
       const novoRegistro = await this.serviceEntity.CreateEntity(dadosParaCriacao);
-      return res.status(200).json(novoRegistro);
+      return res.status(201).json(novoRegistro);
     } catch (erro) {
-      return res.status(400).json({ message: "Erro na Requisição", error: erro });
+      if (erro.name === "SequelizeValidationError") {
+        return res.status(400).json({ mensagem: "Preenchimento de dado Incorreto", error: erro.message });
+      }
+      if (erro.name === "SequelizeDatabaseError") {
+        return res.status(400).json({ mensagem: "Preencha todos os campos Obrigatórios", error: erro.message });
+      }
+      return res.status(500).json({ message: "Erro na Requisição", error: erro });
     }
   }
 

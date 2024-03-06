@@ -1,4 +1,4 @@
-const dataSource = require("../models");
+const dataSource = require("../database/models");
 
 class Services {
   constructor(nomdeDoModel) {
@@ -7,6 +7,10 @@ class Services {
 
   async GetAllData() {
     return dataSource[this.model].findAll();
+  }
+
+  async GetDataByScopes(escopo) {
+    return dataSource[this.model].scope(escopo).findAll();
   }
 
   async GetDataById(id) {

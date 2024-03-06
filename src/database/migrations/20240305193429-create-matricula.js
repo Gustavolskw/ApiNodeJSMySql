@@ -9,25 +9,32 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      status: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       estudante_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: {
-          model: "pessoas",
-          key: "id"
-        }
+        references: { model: 'pessoas', key: 'id' }
       },
       curso_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: {
-          model: "cursos",
-          key: "id"
-        }
+        references: { model: 'cursos', key: 'id' }
       },
-      status: {
+      /*
+      createdAt: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },*/
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE
       }
     });
   },

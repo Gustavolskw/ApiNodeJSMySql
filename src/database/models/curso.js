@@ -6,13 +6,13 @@ module.exports = (sequelize, DataTypes) => {
   class Curso extends Model {
     static associate(models) {
       Curso.belongsTo(models.Categoria, {
-        foreignKey: "categoria_id"
+        foreignKey: 'categoria_id'
       });
       Curso.belongsTo(models.Pessoa, {
-        foreignKey: "docente_id"
+        foreignKey: 'docente_id'
       });
-      Curso.hasMany(models.Pessoa, {
-        foreignKey: "curso_id"
+      Curso.hasMany(models.Matricula, {
+        foreignKey: 'curso_id'
       });
     }
   }
@@ -23,7 +23,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Curso',
-    tableName: "cursos"
+    tableName: 'cursos',
+    paranoid: true,
+    createdAt: false,
+    updatedAt: false
   });
   return Curso;
 };

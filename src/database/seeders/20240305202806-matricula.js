@@ -3,7 +3,6 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-
     await queryInterface.bulkInsert('matriculas', [
       {
         estudante_id: 1,
@@ -26,12 +25,9 @@ module.exports = {
         status: 'matriculado',
       },
     ], {});
-
   },
 
   async down(queryInterface, Sequelize) {
-
     await queryInterface.bulkDelete('matriculas', null, {});
-
   }
 };
