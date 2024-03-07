@@ -26,6 +26,15 @@ class PessoaController extends Controller {
       return res.status(500).json({ message: "Erro na Requisição", error: error });
     }
   }
+  async GetAllMatriculasAtivas(req, res) {
+    const { estudanteId } = req.params;
+    try {
+      const listaMatriculas = await pessoaServices.PegaTodasMatriculasPorEstudante(Number(estudanteId));
+      return res.status(200).json(listaMatriculas);
+    } catch (erro) {
+      return res.status(500).json({ message: "Erro na Requisição", error: erro });
+    }
+  }
 }
 
 module.exports = PessoaController;

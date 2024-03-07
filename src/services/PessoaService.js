@@ -14,6 +14,11 @@ class PessoasServices extends Services {
     const listaPessoas = await super.GetDataByScopes("todosRegistros");
     return listaPessoas;
   }
+  async PegaTodasMatriculasPorEstudante(id) {
+    const estudante = await super.GetDataById(id);
+    const listaMatriculas = await estudante.getTodasMatriculas();
+    return listaMatriculas;
+  }
 }
 
 module.exports = PessoasServices;
