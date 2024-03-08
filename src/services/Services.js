@@ -5,8 +5,8 @@ class Services {
     this.model = nomdeDoModel;
   }
 
-  async GetAllData() {
-    return dataSource[this.model].findAll();
+  async GetAllData(where = {}) {
+    return dataSource[this.model].findAll({ where: { ...where } });
   }
 
   async GetDataByScopes(escopo) {
@@ -16,20 +16,25 @@ class Services {
   async GetDataById(id) {
     return dataSource[this.model].findByPk(id);
   }
-
+  async GetOneData(where) {
+    return dataSource[this.model].findOne({ where: { ...where } });
+  }
   async CreateEntity(dadosDaEntidade) {
     return dataSource[this.model].create(dadosDaEntidade);
   }
-  async deleteData(id) {
-    return dataSource[this.model].destroy({ where: { id: id } });
+  async deleteData(where) {
+    return dataSource[this.model].destroy({ where: { id: { ...where } } });
   }
 
-  async UpdatedData(dados, id) {
-    const ListaDedadosAtualizados = dataSource[this.model].update(dados, { where: { id: id } });
+  async UpdatedData(dados, where) {
+    const ListaDedadosAtualizados = dataSource[this.model].update(dados, { where: { ...where } });
     if (ListaDedadosAtualizados[0] === 0) {
       return false;
     }
     return true;
+  }
+  async getAndCountTable(options = {}) {
+    return dataSource[this.model].findAndCountAll({ ...options });
   }
 }
 

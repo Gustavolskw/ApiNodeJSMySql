@@ -1,4 +1,4 @@
-
+const convertId = require("../utils/stringConverter.js");
 
 class Controller {
   constructor(serviceEntity) {
@@ -26,6 +26,16 @@ class Controller {
       return res.status(500).json({ message: "Erro na Requisição", error: erro });
     }
   }
+  async getOneData(req, res) {
+    const { ...params } = req.params;
+    const where = convertId(params);
+    try {
+      const getPessoa = await this.serviceEntity.GetOneData(where);
+      return res.status(200).json(getPessoa);
+    } catch (erro) {
+      return res.status(500).json({ message: "Erro na Requisição", error: erro });
+    }
+  }
 
   async create(req, res) {
     const dadosParaCriacao = req.body;
@@ -44,15 +54,14 @@ class Controller {
   }
 
   async excluiDados(req, res) {
-    const { id } = req.params;
+    const { ...params } = req.params;
+    const where = convertId(params);
     try {
-      const getPessoa = await this.serviceEntity.GetDataById(Number(id));
+      const getPessoa = await this.serviceEntity.GetDataById(where);
       if (!getPessoa) {
         res.status(404).json("Id Invalido ou incorreto");
       }
-
-
-      const dadoDeletado = await this.serviceEntity.deleteData(id);
+      const dadoDeletado = await this.serviceEntity.deleteData(where);
       return res.status(200).json({ message: "item excluido com Sucesso", itemExcluido: dadoDeletado });
     } catch (erro) {
       return res.status(500).json({ message: "Erro Interno do Servidor", error: erro });
@@ -61,14 +70,15 @@ class Controller {
 
 
   async atualizarDados(req, res) {
-    const { id } = req.params;
+    const { ...params } = req.params;
+    const where = convertId(params);
     const dadosAtualizados = req.body;
     try {
-      const IsUpdated = await this.serviceEntity.UpdatedData(dadosAtualizados, Number(id));
+      const IsUpdated = await this.serviceEntity.UpdatedData(dadosAtualizados, where);
       if (!IsUpdated) {
         return res.status(400).json({ message: "Registro nao foi atualizado!" });
       }
-      return res.status(200).json({ message: "item Atualizado com Sucesso", Id: id, ItemAtualizado: dadosAtualizados });
+      return res.status(200).json({ message: "item Atualizado com Sucesso", Id: where, ItemAtualizado: dadosAtualizados });
     } catch (erro) {
       return res.status(500).json({ message: "Erro Interno do Servidor", error: erro });
     }

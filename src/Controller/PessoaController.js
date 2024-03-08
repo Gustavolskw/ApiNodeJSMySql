@@ -9,9 +9,9 @@ class PessoaController extends Controller {
   }
 
   async GetMatriculas(req, res) {
-    const { estudanteId } = req.params;
+    const { estudante_id } = req.params;
     try {
-      const listaMatriculas = await pessoaServices.getMatriculasPorEstudante(Number(estudanteId));
+      const listaMatriculas = await pessoaServices.getMatriculasPorEstudante(Number(estudante_id));
       return res.status(200).json(listaMatriculas);
     } catch (erro) {
       return res.status(500).json({ message: "Erro na Requisição", error: erro });
@@ -27,9 +27,9 @@ class PessoaController extends Controller {
     }
   }
   async GetAllMatriculasAtivas(req, res) {
-    const { estudanteId } = req.params;
+    const { estudante_id } = req.params;
     try {
-      const listaMatriculas = await pessoaServices.PegaTodasMatriculasPorEstudante(Number(estudanteId));
+      const listaMatriculas = await pessoaServices.PegaTodasMatriculasPorEstudante(Number(estudante_id));
       return res.status(200).json(listaMatriculas);
     } catch (erro) {
       return res.status(500).json({ message: "Erro na Requisição", error: erro });
