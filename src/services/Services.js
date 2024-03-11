@@ -26,13 +26,17 @@ class Services {
     return dataSource[this.model].destroy({ where: { id: { ...where } } });
   }
 
-  async UpdatedData(dados, where) {
-    const ListaDedadosAtualizados = dataSource[this.model].update(dados, { where: { ...where } });
+  async UpdatedData(dados, where, transacao = {}) {
+    const ListaDedadosAtualizados = await dataSource[this.model].update(dados, {
+      where: { ...where },
+      transaction: transacao
+    });
     if (ListaDedadosAtualizados[0] === 0) {
       return false;
     }
     return true;
   }
+
   async getAndCountTable(options = {}) {
     return dataSource[this.model].findAndCountAll({ ...options });
   }
